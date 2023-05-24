@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/todo/{todo}/incomplete',[TodoController::class,'uncomplete'])->name('todo.uncomplete');
     Route::delete('/todo',[TodoController::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
 
-    Route::prefix('admin')->group(function(){
+    Route::prefix('user')->middleware('admin')->group(function(){
         Route::get('/',[UserController::class, 'index']) ->name('user.index');
         Route::delete('/{user}',[UserController::class,'destroy'])->name('user.destroy');
         Route::patch('/{user}/makeadmin',[UserController::class,'makeadmin'])->name('user.makeadmin');
