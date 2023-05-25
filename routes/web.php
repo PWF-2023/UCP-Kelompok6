@@ -41,6 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/todo/{todo}/incomplete',[TodoController::class,'uncomplete'])->name('todo.uncomplete');
     Route::delete('/todo',[TodoController::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
 
+    // Category Routes
+    Route::get('/category',[CategoryController::class, 'index']) ->name('Category.index');
+    Route::post('/category',[CategoryController::class, 'store']) ->name('Category.store');
+    Route::get('/category/create',[CategoryController::class, 'create']) ->name('Category.create');
+    Route::get('/category/{category}/edit',[CategoryController::class, 'edit']) ->name('Category.edit');
+    Route::patch('/category/{category}',[CategoryController::class, 'update']) ->name('Category.update');
+    Route::delete('/category/{category}',[CategoryController::class, 'destroy'])->name('Category.destroy');
+
     Route::prefix('user')->middleware('admin')->group(function(){
         Route::get('/',[UserController::class, 'index']) ->name('user.index');
         Route::delete('/{user}',[UserController::class,'destroy'])->name('user.destroy');
