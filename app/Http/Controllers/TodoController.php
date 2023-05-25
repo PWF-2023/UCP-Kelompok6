@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -25,24 +26,32 @@ class TodoController extends Controller
     {
         $request->validate([
             'title'=>'required|max:255',
+            'category_id'=>'sometimes|nullable|exists:App\Models\Todo,category_id',
         ]);
 
         $todo = Todo::create([
             'title'=>ucfirst($request->title),
             'user_id'=> auth()->user()->id,
+            'category_id'=> $request->category_id
         ]);
         return redirect()->route('todo.index')->with('success','Todo created successfully!');
     }
 
     public function create()
     {
-        return view('todo.create');
+        $categories = Category::where('user_id',auth()->user()->id)
+        ->get();
+        // dd($categories);
+
+        return view('todo.create',compact('categories'));
     }
 
     public function edit(Todo $todo)
     {
         if(auth()->user()->id = $todo->user_id){
-            return view('todo.edit',compact('todo'));
+            $categories = Category::where('user_id',auth()->user()->id)
+            ->get();
+            return view('todo.edit',compact('todo','categories'));
         }
         return redirect()->route('todo.index')->with('danger','You are not authorized to edit this todo!');
 
@@ -52,9 +61,11 @@ class TodoController extends Controller
     {
         $request->validate([
                 'title' => 'required|max:255',
+                'category_id'=>'sometimes|nullable|exists:App\Models\Todo,category_id',
             ]);
         $todo->update([
             'title'=>ucfirst($request->title),
+            'category_id'=> $request->category_id,
         ]);
         return redirect()->route('todo.index')->with('success','Todo updated successfully!');
     }

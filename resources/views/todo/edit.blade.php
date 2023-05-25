@@ -9,17 +9,32 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="post" action="{{ route('todo.update',$todo) }}" class="">
+                    <form method="post" action="{{ route('todo.update', $todo) }}" class="">
                         @csrf
                         @method('patch')
                         <div class="mb-6">
-                            <x-input-label for="title" :value="__('Title')"/>
-                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('name',$todo->title)" required autofocus autocomplete="title"/>
-                            <x-input-error class="mt-2" :messages="$errors->get('title')"/>
+                            <x-input-label for="title" :value="__('Title')" />
+                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"
+                                :value="old('name', $todo->title)" required autofocus autocomplete="title" />
+                            <x-input-error class="mt-2" :messages="$errors->get('title')" />
+                        </div>
+                        <div class="mb-6">
+                            <x-input-label for="category_id" :value="__('Category')" />
+                            <x-select id="category_id" name="category_id" class="block w-full mt-1">
+                                {{-- ada yang perlu di benerin di sini --}}
+                                @foreach ($categories as $category)
+                                    @if ($todo->category_id == $category->id)
+                                        <option value="{{ $category->id }}" selected >{{ $category->title }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endif
+                                @endforeach
+                                <option value="">Empty</option>
+                            </x-select>
                         </div>
                         <div class="flex item-center gap-4">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>
-                            <x-cancel-button href="{{ route('todo.index') }}"/>
+                            <x-cancel-button href="{{ route('todo.index') }}" />
                         </div>
                     </form>
                 </div>
