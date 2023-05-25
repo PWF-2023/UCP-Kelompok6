@@ -19,7 +19,7 @@ class CategoriFactory extends Factory
         return [
             //
             'user_id' => rand(1, 102),
-            'title' => ucword(fake()->sentence()),
+            'title' => ucwords(fake()->sentence()),
         ];
     }
 }
