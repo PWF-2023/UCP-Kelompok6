@@ -11,7 +11,7 @@
                 <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
                     <div class="flex items-center justify-between">
                         <div>
-                            <x-create-button href=""/>
+                            <x-create-button href="{{ route('category.create') }}"/>
                         </div>
                         <div>
                             @if (session('success'))
@@ -39,25 +39,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
-                                <td scope='row' class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                    <a href="" class="hover:underline">Title</a>
-                                </td>
-                                <td class="hidden px-6 py-4 md:block">
-                                    <p>Todo</p>
+                            @forelse ($categories as $category)
+                                <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
+                                    <td scope='row' class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                        <a href="{{ route('category.edit',$category) }}" class="hover:underline">{{ $category->title }}</a>
+                                    </td>
+                                    <td class="hidden px-6 py-4 md:block">
+                                        <p>{{ $category->todos->count() }}</p>
 
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex space-x-3">
-                                        <form action="" method="Post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="text-red-600 dark:text-red-400">Delete</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex space-x-3">
+                                            <form action="{{ route('category.destroy', $category) }}" method="Post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-red-600 dark:text-red-400">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr class="bg-white dark:bg-gray-800">
+                                    <td scope='row' class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                        Empty
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
