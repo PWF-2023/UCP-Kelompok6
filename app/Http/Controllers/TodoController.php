@@ -34,6 +34,11 @@ class TodoController extends Controller
             'user_id'=> auth()->user()->id,
             'category_id'=> $request->category_id
         ]);
+
+        if (!empty($request->category_id)) {
+            $todo['category_id'] = $request->category_id;
+        }
+
         return redirect()->route('todo.index')->with('success','Todo created successfully!');
     }
 
@@ -49,8 +54,7 @@ class TodoController extends Controller
     public function edit(Todo $todo)
     {
         if(auth()->user()->id = $todo->user_id){
-            $categories = Category::where('user_id',auth()->user()->id)
-            ->get();
+            $categories = Category::where('user_id',auth()->user()->id)->get();
             return view('todo.edit',compact('todo','categories'));
         }
         return redirect()->route('todo.index')->with('danger','You are not authorized to edit this todo!');
@@ -67,6 +71,11 @@ class TodoController extends Controller
             'title'=>ucfirst($request->title),
             'category_id'=> $request->category_id,
         ]);
+
+        if (!empty($request->category_id)) {
+            $todo['category_id'] = $request->category_id;
+        }
+        $todo->save();
         return redirect()->route('todo.index')->with('success','Todo updated successfully!');
     }
 
