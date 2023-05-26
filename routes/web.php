@@ -45,12 +45,13 @@ Route::middleware('auth')->group(function () {
     // Category Routes
     Route::resource('category', CategoryController::class)->except(['show']);
 
-    // Route::get('/category',[CategoryController::class, 'index']) ->name('Category.index');
-    // Route::post('/category',[CategoryController::class, 'store']) ->name('Category.store');
-    // Route::get('/category/create',[CategoryController::class, 'create']) ->name('Category.create');
-    // Route::get('/category/{category}/edit',[CategoryController::class, 'edit']) ->name('Category.edit');
-    // Route::patch('/category/{category}',[CategoryController::class, 'update']) ->name('Category.update');
-    // Route::delete('/category/{category}',[CategoryController::class, 'destroy'])->name('Category.destroy');
+    // Route::get('/category',[CategoryController::class, 'index']) ->name('category.index');
+    // Route::post('/category',[CategoryController::class, 'store']) ->name('category.store');
+    // Route::get('/category/create',[CategoryController::class, 'create']) ->name('category.create');
+    // Route::get('/category/{category}/edit',[CategoryController::class, 'edit']) ->name('category.edit');
+    // Route::patch('/category/{category}',[CategoryController::class, 'update']) ->name('category.update');
+    // Route::delete('/category/{category}',[CategoryController::class, 'destroy'])->name('category.destroy');
+
 
     Route::prefix('user')->middleware('admin')->group(function(){
         Route::get('/',[UserController::class, 'index']) ->name('user.index');
